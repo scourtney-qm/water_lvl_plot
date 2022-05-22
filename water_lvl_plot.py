@@ -6,11 +6,13 @@ from ipywidgets import widgets
 from IPython.display import display, clear_output
 
 def all_stations():
+    """Returns list of all stations in http://environment.data.gov.uk/flood-monitoring/id/stations in alphabetical order"""
     response = requests.get('http://environment.data.gov.uk/flood-monitoring/id/stations')
     f = {i["stationReference"]:i['label'] if i['label'][0] !=' ' else i['label'][1:] for i in response.json()['items']}
     return sorted([f[k]+' ({})'.format(k) for k in f])
 
 def from_json_to_datetime(dt):
+    """Takes the datetime string as formatted in th json, dt, and returns the corresponding to a datetime object"""
     date_list = dt.split('T')[0].split('-')
     time_list = dt.split('T')[1][:-1].split(':')
 
@@ -21,10 +23,12 @@ def from_json_to_datetime(dt):
 
 
 def from_datetime_to_json(dt):
+    """Takes the datetime object, dt, and returns the corresponding datetime string as formatted in the json"""
     return str(dt).replace(' ', 'T')+'Z'
 
 
 def plot_station(station):
+    """Makes a 24 hour water level plot for the given station"""
     hr_diff = 24
     param = 'level'
     id_num = station.split('(')[1][:-1]
@@ -71,6 +75,8 @@ def plot_station(station):
     
     
 def widget():
+    """Creates a widget to switch between plots of stations. 
+    A dropdown is used to switch stations and the searchbar can refine your options."""
     options = all_stations()
 
     def select_station(search):
