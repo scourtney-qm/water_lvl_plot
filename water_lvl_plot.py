@@ -52,9 +52,9 @@ def plot_station(station):
                  ' (now=' + 
                  str(datetime.datetime.now().date()) + 
                  ' ' + 
-                 str(datetime.datetime.now().hour) + 
+                 str(datetime.datetime.now().hour).zfill(2) + 
                  ":" + 
-                 str(datetime.datetime.now().minute) + ')')
+                 str(datetime.datetime.now().minute).zfill(2) + ')')
 
     ax.plot(times, values)
 
