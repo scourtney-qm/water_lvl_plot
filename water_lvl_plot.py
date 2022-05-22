@@ -1,6 +1,7 @@
 import requests
 import datetime
 import matplotlib.pyplot as plt
+from tabulate import tabulate
 
 from ipywidgets import widgets
 from IPython.display import display, clear_output
