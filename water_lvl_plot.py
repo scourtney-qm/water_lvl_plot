@@ -28,7 +28,7 @@ def from_datetime_to_json(dt):
 
 
 def plot_station(station):
-    """Makes a 24 hour water level plot for the given station"""
+    """Makes a 24 hour water level plot and table for the given station"""
     hr_diff = 24
     param = 'level'
     id_num = station.split('(')[1][:-1]
@@ -41,7 +41,7 @@ def plot_station(station):
         'http://environment.data.gov.uk/flood-monitoring/id/stations/{}/readings?since={}&parameter={}'.format(
             id_num, from_datetime_to_json(datetime.datetime.now()-diff), param))
     results = station_response.json()['items']
-
+    
     values = [r['value'] for r in results]
     times = [(from_json_to_datetime(r['dateTime'])-datetime.datetime.now()).total_seconds()/3600 for r in results]
 
@@ -49,7 +49,7 @@ def plot_station(station):
     times = sorted(times)
     
     
-    fig = plt.figure(figsize=(10,6))
+    fig = plt.figure(figsize=(11,5))
     ax = fig.add_subplot(1, 1, 1)
 
     ax.set_title(station.split('(')[0][:-1] + 
@@ -71,6 +71,13 @@ def plot_station(station):
     ax.set_xticklabels(['Now']+list(range(-3,-hr_diff-3,-3)))
 
     plt.show()
+    
+    table_values = [r['value'] for r in results]
+    table_times = [str(from_json_to_datetime(r['dateTime'])) for r in results]
+
+    table_values = [v for _, v in sorted(zip(table_times, table_values))]
+    table_times = sorted(table_times)
+    print(tabulate([[t,v] for t,v in zip(table_times,table_values)], headers=['Time', 'Water Level/m']))
     
     
     
