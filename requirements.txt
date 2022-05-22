@@ -1,0 +1,5 @@
+
+requests==2.25.1
+matplotlib==3.3.4
+ipywidgets==7.5.1
+IPython==7.22.0
