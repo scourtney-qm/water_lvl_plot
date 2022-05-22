@@ -1,8 +1,6 @@
 import requests
-import pandas as pd
 import datetime
 import matplotlib.pyplot as plt
-import numpy as np
 
 from ipywidgets import widgets
 from IPython.display import display, clear_output
